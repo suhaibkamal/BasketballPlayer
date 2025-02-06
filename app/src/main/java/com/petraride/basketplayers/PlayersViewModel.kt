@@ -8,15 +8,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import androidx.paging.cachedIn
+
 
 class PlayersViewModel(val playersUseCases: PlayersUseCases): ViewModel() {
+     val pagedPlayers = playersUseCases.getPlayersUseCase().cachedIn(viewModelScope)
 
-    private val _players = MutableStateFlow<List<Player>>(emptyList())
-    val players: StateFlow<List<Player>> = _players.asStateFlow()
+    private val _player = MutableStateFlow<Player?>(null)
+    val player: StateFlow<Player?> = _player.asStateFlow()
 
-    fun loadPlayers() {
+    fun loadPlayer(id: Int) {
         viewModelScope.launch {
-            _players.value = playersUseCases.getPlayersUseCase().players
+             playersUseCases.getPlayerByIdUseCase(id).collect{
+                _player.value=it
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.petraride.domain.model
 
+import android.graphics.Color
 import com.google.gson.annotations.SerializedName
 
 data class PlayerResponse(
@@ -35,5 +36,28 @@ data class Team(
 
 data class Meta(
     @SerializedName("next_cursor") val nextCursor: Int,
+    @SerializedName("prev_cursor") val prevCursor: Int,
     @SerializedName("per_page") val perPage: Int
 )
+
+data class PlayerByIdResponse(
+    @SerializedName("data") val player: Player,
+)
+
+fun Player.color(): Long{
+    when(position){
+        "G-F"->{
+            return 0xFF4CAF50
+        }
+        "C"->{
+            return 0xFFFF9800
+        }
+        "F" ->{
+            return 0xFF9C27B0
+        }
+        "G"->{
+            return 0xFFF44336
+        }
+    }
+    return 0xFF2196F3
+}

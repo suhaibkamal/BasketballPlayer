@@ -1,11 +1,13 @@
 package com.petraride.domain.usecase
 
+import androidx.paging.PagingData
 import com.petraride.domain.model.Player
 import com.petraride.domain.model.PlayerResponse
 import com.petraride.domain.repository.PlayersRepository
+import kotlinx.coroutines.flow.Flow
 
 class GetPlayersUseCase(private val repository: PlayersRepository) {
-    suspend operator fun invoke(cursor:Int?=0): PlayerResponse {
-        return repository.getPlayers(cursor ?:0)
+     operator fun invoke(): Flow<PagingData<Player>> {
+        return repository.getPlayers()
     }
 }
