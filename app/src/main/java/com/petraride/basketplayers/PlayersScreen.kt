@@ -45,9 +45,8 @@ fun PlayersScreen(
             ).show()
         }
     }
-    Scaffold(topBar = { TopAppBar(title = { Text("Players") }) }) {
-
-
+    Scaffold(topBar = { TopAppBar(title = { Text("Players") }) }, content = {
+        innerPadding ->
         when (players.loadState.refresh) {
             is LoadState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -62,7 +61,8 @@ fun PlayersScreen(
             else->{
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = innerPadding,
+                    verticalArrangement = Arrangement.spacedBy(9.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(players.itemCount) {
@@ -99,9 +99,7 @@ fun PlayersScreen(
                 }
 
             }}
-
-
-        }
+    })
 
 
 
