@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.petraride.domain.model.color
+import com.petraride.domain.model.image
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +69,7 @@ fun PlayersScreen(
                     items(players.itemCount) {
                         val player = players[it]
                         if (player != null) {
-                            PlayerCardView("https://cdn2.thecatapi.com/images/${player.id}.jpg",
+                            PlayerCardView(player.image()?:"",
                                 player.firstName + "" + player.lastName,
                                 player.team.name,
                                 Color(player.color()),

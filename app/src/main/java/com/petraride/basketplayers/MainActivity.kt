@@ -49,15 +49,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-
-@Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
@@ -67,13 +58,5 @@ fun AppNavigation() {
             val itemId = backStackEntry.arguments?.getString("Id")
             PlayerDetailsScreen(navController=navController, itemId =  itemId)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BasketPlayersTheme {
-        Greeting("Android")
     }
 }

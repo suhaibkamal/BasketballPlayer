@@ -61,3 +61,7 @@ fun Player.color(): Long{
     }
     return 0xFF2196F3
 }
+
+fun Player.image(): String{
+    return "https://cdn2.thecatapi.com/images/${id}.jpg"
+}

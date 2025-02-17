@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.petraride.domain.model.color
+import com.petraride.domain.model.image
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,7 +101,7 @@ fun PlayerDetails(
                 ) {
 
                     AsyncImage(
-                        model = "https://cdn2.thecatapi.com/images/${player?.id}.jpg",
+                        model = player?.image(),
                         contentDescription = "Player Image",
                         modifier = Modifier
                             .size(120.dp)
@@ -136,37 +139,35 @@ fun PlayerDetails(
             }
 
             Column(
-                modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 10.dp).weight(4f)){
+                modifier = Modifier.fillMaxWidth()
+                    .verticalScroll(rememberScrollState()) // Enables scrolling
+                    .padding(start = 10.dp, end = 10.dp).weight(4f),
+
+
+            ){
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "Player Number: ${player?.jerseyNumber ?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
+
+                infoCell("Player Number", player?.jerseyNumber?:"",Color(player?.color()?:0xFF2196F3))
+
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = "Player Weight: ${player?.weight ?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
+
+                infoCell("Player Weight", player?.weight?:"",Color(player?.color()?:0xFF2196F3))
+
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "Player Height: ${player?.height}",
-                    style = MaterialTheme.typography.bodyLarge,
 
-                    )
+                infoCell("Player Height", player?.height?:"",Color(player?.color()?:0xFF2196F3))
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "Player college: ${player?.college}",
-                    style = MaterialTheme.typography.bodyLarge,
 
-                    )
+                infoCell("Player college", player?.college?:"",Color(player?.color()?:0xFF2196F3))
+
 
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -175,39 +176,31 @@ fun PlayerDetails(
                     text = "Team Information",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
+                    color = Color(player?.color()?:0xFF2196F3)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "Team name: ${player?.team?.fullName?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
 
-                    )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                infoCell("Team name", player?.team?.fullName?:"",Color(player?.color()?:0xFF2196F3))
 
-                Text(
-                    text = "Team conference: ${player?.team?.conference?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
-
-                    )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "Team city: ${player?.team?.city?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
 
-                    )
+                infoCell("Team conference", player?.team?.conference?:"",Color(player?.color()?:0xFF2196F3))
+
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "Team division: ${player?.team?.division?: ""}",
-                    style = MaterialTheme.typography.bodyLarge,
+                infoCell("Team city", player?.team?.city?:"",Color(player?.color()?:0xFF2196F3))
 
-                    )
+                Spacer(modifier = Modifier.height(4.dp))
+
+
+                infoCell("Team division", player?.team?.division?:"",Color(player?.color()?:0xFF2196F3))
+
             }
         }?: CircularProgressIndicator()
 
