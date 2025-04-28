@@ -41,7 +41,6 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.paging.compose)
     implementation(libs.paging.runtime)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -44,6 +45,10 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.gson)
     implementation(libs.paging.compose)
+    implementation(libs.android.room)
+    implementation(libs.android.room.runtime)
+    ksp(libs.android.room.compiler)
+    annotationProcessor(libs.android.room.compiler)
     implementation(libs.paging.runtime)
     implementation(libs.ktor.client.content.negotiation)
     implementation(project(":domain"))

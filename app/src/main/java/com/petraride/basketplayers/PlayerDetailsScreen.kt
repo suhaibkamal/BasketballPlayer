@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -56,7 +58,29 @@ fun PlayerDetailsScreen(viewModel: PlayersViewModel= koinViewModel<PlayersViewMo
     LaunchedEffect(Unit) {
         viewModel.loadPlayer(itemId?.toInt()?:0)
     }
-    Scaffold(topBar = { TopAppBar(title = { Text("Player Details") },
+    Scaffold(floatingActionButton = {
+        val isFav = viewModel.isFavorite.collectAsState()
+        val player by viewModel.player.collectAsState()
+        ExtendedFloatingActionButton(
+            onClick = {
+                if(isFav.value){
+
+                    viewModel.removePlayerFromFavorites(player = player)
+            }else {
+                    viewModel.addPlayerToFavorites(player = player)
+                }
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_favorite_),
+                    contentDescription = "Add"
+                )
+            },
+            text = { Text(if(isFav.value)"Remove from Favorites" else "Add to Favorites") },
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = Color.White,
+        )
+    },topBar = { TopAppBar(title = { Text("Player Details") },
 
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
@@ -89,7 +113,10 @@ fun PlayerDetails(
                 modifier = Modifier
                     .wrapContentSize()
                     .weight(2.5f)
-                    .background(Color(player?.color()?:0xFF2196F3), RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)),
+                    .background(
+                        Color(player?.color() ?: 0xFF2196F3),
+                        RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -139,9 +166,11 @@ fun PlayerDetails(
             }
 
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .verticalScroll(rememberScrollState()) // Enables scrolling
-                    .padding(start = 10.dp, end = 10.dp).weight(4f),
+                    .padding(start = 10.dp, end = 10.dp)
+                    .weight(4f),
 
 
             ){
